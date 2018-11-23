@@ -1,60 +1,43 @@
-
 import urllib2
 import lxml
-
-
-
-
-wiki = "http://www.ratemyprofessors.com/search.jsp?query=vikash+singh"
-req = urllib2.Request(wiki, headers={'User-Agent' : "Magic Browser"})
-
-#Query the website and return the html to the variable 'page'
-page = urllib2.urlopen(req)
-
 #import the Beautiful soup functions to parse the data returned from the website
 from bs4 import BeautifulSoup
 
-soup = BeautifulSoup(page, features = "lxml")
+yes = "https://acad.app.vanderbilt.edu/more/SearchClasses!input.action?"
 
+courseTable = BeautifulSoup.find_all('td', attrs={'class': 'classInstructor'})
 
+for each in courseTable:
+	profName = each.text.strip().encode('utf-8').replace(", ", "+")
+	wiki = "http://www.ratemyprofessors.com/search.jsp?query=" + profName + "+vanderbilt"
+	req = urllib2.Request(wiki, headers={'User-Agent' : "Magic Browser"})
 
-all_links = soup.find_all('a')
+	#Query the website and return the html to the variable 'page'
+	page = urllib2.urlopen(req)
 
-a=0
+	soup = BeautifulSoup(page, features = "lxml")
 
+	all_links = soup.find_all('a')
 
-for link in all_links:
-	nice = link.get('href')
-	a=a+1
-	
-	if a==59:
-		query = nice
+	a=0
 
+	for link in all_links:
+		nice = link.get('href')
+		a=a+1
+		if a==59:
+			query = nice
 
+	print query
 
-print query
+	result = 0
 
-if query[:6] != "/ShowR":
-	print "fuck you"
-else:
-	wiki1 = "http://www.ratemyprofessors.com" + query
-	req1 = urllib2.Request(wiki1, headers={'User-Agent' : "Magic Browser"})
-	page1 = urllib2.urlopen(req1)
-	soup1 = BeautifulSoup(page1, features = "lxml")
-	print soup1.find('div', class_='grade').string
+	if query[:6] != "/ShowR":
+		result = -1
+	else:
+		wiki1 = "http://www.ratemyprofessors.com" + query
+		req1 = urllib2.Request(wiki1, headers={'User-Agent' : "Magic Browser"})
+		page1 = urllib2.urlopen(req1)
+		soup1 = BeautifulSoup(page1, features = "lxml")
+		result = soup1.find('div', class_='grade').text
 
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
+	each.text = profName+" - "+(str)+result
