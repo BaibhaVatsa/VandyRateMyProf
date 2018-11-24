@@ -1,5 +1,7 @@
 //the string to which the professor's last name and "vanderbilt" will be added to
 const String query = "http://www.ratemyprofessors.com/search.jsp?query=";
+console.log("Extension on!");
+
 while() { //tables in search results page in YES (Student Portal)
 	while() { //there are rows of results 
 		//pick classInstructor

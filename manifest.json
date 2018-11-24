@@ -6,15 +6,21 @@
       "scripts": ["background.js"],
       "persistent": false
     },
+    "content_scripts": [
+    	{
+    		"matches": [
+    			"https://acad.app.vanderbilt.edu/more/SearchClasses!input.action?*"
+    		],
+    	},
+    ],
     "manifest_version": 2,
     "browser_action": {
-      "default_popup": "show.html",
       "default_icon": "logo2.png"
     },
 
     "commands": {
       "_execute_browser_action": {
-        "description": "Opens hello.html"
+        "description": "Shows the logo"
       }
     }
   
